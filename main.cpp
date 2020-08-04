@@ -3,7 +3,12 @@
 #include <cmath>
 #include <ctime>
 #include <string>
+#include "functions.h"
 using namespace std;
+
+void print_traj(FILE* out_traj,double* traj,int N_spots);
+void init_traj(double* traj,double x0);
+
 
 int main()
 {
@@ -25,8 +30,17 @@ int main()
 	const double acc_rate_low_border=0.2;
 
 	FILE *out_traj;
-	out_traj=fopen("out_traj","w");
-	fprintf(out_traj,"testttt\n");
+	out_traj=fopen("out_traj.txt","w");
+
+	double traj[N_spots];
+	double x0=0.0;
+	init_traj(traj,N_spots,x0);
+
+	double out_x_sq;
+
+	//out_x_sq=perform_sweeps(traj);
+
+	print_traj(out_traj,traj,N_spots);
 
 	fclose(out_traj);
     end=clock();
