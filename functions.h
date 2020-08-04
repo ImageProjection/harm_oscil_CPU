@@ -13,3 +13,10 @@ void init_traj(double* traj, int N_spots, double x0)
         traj[i]=x0;
     }    
 }
+
+
+double perform_sweeps(double* traj,int N_spots,double a,double omega,double sigma_coef,
+    int sigma_sweeps_period, double acc_rate_up_border,double acc_rate_low_border,int N_sweeps_waiting,int N_sweeps_storing)
+{
+    return 4;
+}
