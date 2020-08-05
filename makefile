@@ -16,3 +16,9 @@ clean:
 
 git_log:
 	git log --all --graph --decorate
+
+win_compile:
+	x86_64-w64-mingw32-g++ -Wall -o main.exe main.cpp && mv main.exe '/home/artem/Dropbox/ФФ книги  ярлыки материалы/5сем/coarse_works_shared_executables/CUDA/CPU'
+
+win_clean:
+	rm -rf '/home/artem/Dropbox/ФФ книги  ярлыки материалы/5сем/coarse_works_shared_executables/CUDA/CPU/'main.exe
