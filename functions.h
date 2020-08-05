@@ -21,13 +21,13 @@ double av_sq_x(double* traj, int N_spots)
     {
         res+=traj[i]*traj[i];
     }
-    return res;    
+    return res/N_spots;    
 }
 
-double norm_dist(double x0,double sigma)
+/*double norm_dist(double x0,double sigma)
 {
 
-}
+}*/
 
 
 double perform_sweeps(double* traj,int N_spots,double a,double omega,double sigma_coef,
