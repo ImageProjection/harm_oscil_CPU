@@ -4,6 +4,9 @@ compile:
 debug_compile:
 	g++ -g -Wall -o main main.cpp
 
+test_file_compile_run:
+	g++ -g -Wall -o testing_functions testing_functions.cpp && ./testing_functions
+
 run:
 	./main
 
