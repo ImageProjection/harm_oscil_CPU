@@ -12,6 +12,7 @@ double perform_sweeps(double* traj,int N_spots,double a,double omega,double sigm
 	int sigma_sweeps_period, double acc_rate_up_border,double acc_rate_low_border,
 	int N_sweeps_waiting,int N_sweeps_storing);
 double av_sq_x(double* traj, int N_spots);
+double norm_dist(double x0,double sigma);
 
 int main()
 {
@@ -32,16 +33,15 @@ int main()
 	const double acc_rate_up_border=0.3;
 	const double acc_rate_low_border=0.2;
 
-	FILE *out_traj;
-	out_traj=fopen("out_traj.txt","w");
+	FILE *out_norm_dis_test;
+	out_norm_dis_test=fopen("out_norm_dis_test.txt","w");
 
-	double traj[N_spots];
-	double x0=9.95;
-	init_traj(traj,N_spots,x0);
-	print_traj(out_traj,traj,N_spots);
-
-    printf("av_sq_x=%.3lf\n",av_sq_x(traj,N_spots));
-	fclose(out_traj);
+	for (int i = 0; i < 1000000; i++)
+	{
+		fprintf(out_norm_dis_test,"%lf\n",norm_dist(2.5,0.8));
+	}
+	
+	fclose(out_norm_dis_test);
     end=clock();
 	printf("TIME: %.2lf ms\n",(double)(end-start)/CLOCKS_PER_SEC*1000);
 }

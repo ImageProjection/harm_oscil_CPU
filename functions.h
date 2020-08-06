@@ -24,10 +24,16 @@ double av_sq_x(double* traj, int N_spots)
     return res/N_spots;    
 }
 
-/*double norm_dist(double x0,double sigma)
+double norm_dist(double x0,double sigma)//possible but highly unlikely ln(0)
 {
-
-}*/
+    long double gamma1,gamma2;
+    long double x,result;
+    gamma1=(long double) rand() / RAND_MAX;
+    gamma2=(long double) rand() / RAND_MAX;
+    x=sqrt(-2.0*log(gamma2))*sin(2.0*M_PI*gamma1);
+    result=x0+sigma*x;
+    return result;
+}
 
 
 double perform_sweeps(double* traj,int N_spots,double a,double omega,double sigma_coef,
