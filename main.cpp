@@ -21,9 +21,9 @@ int main()
 
 	const int N_sweeps_waiting=8000;
 	const int N_sweeps_storing=15000;
-	const double a=0.025;
-	const int N_spots=200;
-	int beta=a*N_spots;
+	const double a=0.02;
+	const int N_spots=500;
+	//double beta=a*N_spots;
 	const double omega=2;
 
 	const int sigma_local_updates_period=1000;
@@ -48,6 +48,6 @@ int main()
 
 	fclose(out_traj);
     end=clock();
-	printf("out_x_sq for omega=%.1lf is: %.4lf\n",omega,out_x_sq);
+	printf("termolised <x^2> for omega=%.1lf is: %.4lf\n",omega,out_x_sq);
 	printf("TIME: %.2lf ms\n",(double)(end-start)/CLOCKS_PER_SEC*1000);
 }
