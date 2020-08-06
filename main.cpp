@@ -19,7 +19,7 @@ int main()
 	start=clock();
 	srand(time(0));
 
-	const int N_sweeps_waiting=8000;
+	const int N_sweeps_waiting=28000;
 	const int N_sweeps_storing=15000;
 	const double a=0.02;
 	const int N_spots=500;
