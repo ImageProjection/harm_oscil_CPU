@@ -14,16 +14,6 @@ void init_traj(double* traj, int N_spots, double x0)
     }    
 }
 
-double av_sq_x(double* traj, int N_spots)
-{
-    double res=0;
-    for (int i = 0; i < N_spots; i++)
-    {
-        res+=traj[i]*traj[i];
-    }
-    return res/N_spots;    
-}
-
 double norm_dist(double x0,double sigma)//possible but highly unlikely ln(0)
 {
     long double gamma1,gamma2;
@@ -36,15 +26,16 @@ double norm_dist(double x0,double sigma)//possible but highly unlikely ln(0)
 }
 
 
-double perform_sweeps(double* traj,int N_spots,double a,double omega,double sigma_coef,
+void perform_sweeps(double* traj,int N_spots,double a,double omega,double bot,double sigma_coef,
     int sigma_sweeps_period, double acc_rate_up_border,double acc_rate_low_border,int N_sweeps_waiting,int N_sweeps_storing)
 {
     double traj_new[N_spots];
     int accepted=(sigma_sweeps_period * N_spots)*0.5*(acc_rate_up_border+acc_rate_low_border);//to not update on first
     double sigma=sqrt(0.5/omega);
-    double acc_rate,x_old,x_new,gamma,prob_acc,S_new,S_old,sq_x_sum;
-    double A=1.0+a*a*omega*omega*0.5;
+    double acc_rate,x_old,x_new,gamma,prob_acc,S_new,S_old;
+    double A=1.0-a*a*omega*omega*0.25;
     double B;
+    double C=a*a*omega*omega/(bot*bot)*0.125;
     //WAITING SWEEPS
     for (int sweeps_counter = 0; sweeps_counter < N_sweeps_waiting; sweeps_counter++)
     {
@@ -67,9 +58,9 @@ double perform_sweeps(double* traj,int N_spots,double a,double omega,double sigm
         {
             x_old=traj[i];
             x_new=norm_dist(x_old,sigma);
-			B=(traj[(i-1+N_spots)%N_spots]+traj[(i+1+N_spots)%N_spots]);
-            S_old=(A*x_old*x_old-B*x_old)/a;				
-			S_new=(A*x_new*x_new-B*x_new)/a;
+			B=(traj[(i-1+N_spots)%N_spots]+traj[(i+1+N_spots)%N_spots]);//x9+x11
+            S_old=(A*x_old*x_old-B*x_old+C*x_old*x_old*x_old*x_old)/a;				
+			S_new=(A*x_new*x_new-B*x_new+C*x_new*x_new*x_new*x_new)/a;
             if (S_new < S_old)
             {
                 traj_new[i]=x_new;
@@ -90,8 +81,6 @@ double perform_sweeps(double* traj,int N_spots,double a,double omega,double sigm
                 }                
             }            
         }        
-        //finding <x^2> over sweep
-        //sq_x_sum+=av_sq_x(traj_new,N_spots);
         //new -> old
         for (int i = 0; i < N_spots; i++)
         {
@@ -121,8 +110,8 @@ double perform_sweeps(double* traj,int N_spots,double a,double omega,double sigm
             x_old=traj[i];
             x_new=norm_dist(x_old,sigma);
 			B=(traj[(i-1+N_spots)%N_spots]+traj[(i+1+N_spots)%N_spots]);
-            S_old=(A*x_old*x_old-B*x_old)/a;				
-			S_new=(A*x_new*x_new-B*x_new)/a;
+            S_old=(A*x_old*x_old-B*x_old+C*x_old*x_old*x_old*x_old)/a;				
+			S_new=(A*x_new*x_new-B*x_new+C*x_new*x_new*x_new*x_new)/a;
             if (S_new < S_old)
             {
                 traj_new[i]=x_new;
@@ -143,13 +132,10 @@ double perform_sweeps(double* traj,int N_spots,double a,double omega,double sigm
                 }                
             }            
         }        
-        //finding <x^2> over sweep
-        sq_x_sum+=av_sq_x(traj_new,N_spots);
         //new -> old
         for (int i = 0; i < N_spots; i++)
         {
             traj[i]=traj_new[i];
         }        
     }
-    return (double) sq_x_sum/N_sweeps_storing;   
 }
