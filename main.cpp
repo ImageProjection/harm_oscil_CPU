@@ -10,7 +10,7 @@ void print_traj(FILE* out_traj,double* traj,int N_spots);
 void init_traj(double* traj,double x0);
 void perform_sweeps(double* traj,int N_spots,double a,double omega,double bot,double sigma_coef,
 	int sigma_sweeps_period, double acc_rate_up_border,double acc_rate_low_border,
-	int N_sweeps_waiting,int N_sweeps_storing);
+	int N_sweeps_waiting);
 
 
 int main()
@@ -20,7 +20,6 @@ int main()
 	srand(time(0));
 
 	const int N_sweeps_waiting=28000;
-	const int N_sweeps_storing=15000;
 	const double a=0.02;
 	const int N_spots=500;
 	//double beta=a*N_spots;
@@ -41,7 +40,7 @@ int main()
 	init_traj(traj,N_spots,x0);
 
 	perform_sweeps(traj, N_spots, a, omega, bot, sigma_coef, sigma_sweeps_period,
-		acc_rate_up_border, acc_rate_low_border, N_sweeps_waiting, N_sweeps_storing);
+		acc_rate_up_border, acc_rate_low_border, N_sweeps_waiting);
 
 	print_traj(out_traj,traj,N_spots);
 
