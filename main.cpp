@@ -19,11 +19,11 @@ int main()
 	start=clock();
 	srand(111);
 
-	const int N_sweeps_waiting=1000000;
+	const int N_sweeps_waiting=800000;
 	const double a=0.02;
 	const int N_spots=4000;
 	//double beta=a*N_spots;
-	const double omega=6.0;
+	const double omega=7.0;
 	double bot=1.0;
 
 	const int sigma_local_updates_period=2000;
