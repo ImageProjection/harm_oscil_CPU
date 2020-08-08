@@ -17,16 +17,16 @@ int main()
 {
     clock_t start,end;
 	start=clock();
-	srand(time(0));
+	srand(111);
 
-	const int N_sweeps_waiting=28000;
+	const int N_sweeps_waiting=1000000;
 	const double a=0.02;
-	const int N_spots=500;
+	const int N_spots=4000;
 	//double beta=a*N_spots;
-	const double omega=1.1;
-	double bot=2.0;
+	const double omega=6.0;
+	double bot=1.0;
 
-	const int sigma_local_updates_period=1000;
+	const int sigma_local_updates_period=2000;
 	const int sigma_sweeps_period=ceil((double)sigma_local_updates_period/N_spots);
 	const double sigma_coef=1.2;
 	const double acc_rate_up_border=0.3;

@@ -31,7 +31,7 @@ void perform_sweeps(double* traj,int N_spots,double a,double omega,double bot,do
 {
     double traj_new[N_spots];
     int accepted=(sigma_sweeps_period * N_spots)*0.5*(acc_rate_up_border+acc_rate_low_border);//to not update on first
-    double sigma=sqrt(0.5/omega);
+    double sigma=0.472;//sqrt(0.5/omega);
     double acc_rate,x_old,x_new,gamma,prob_acc,S_new,S_old;
     double A=1.0-a*a*omega*omega*0.25;
     double B;
@@ -47,7 +47,7 @@ void perform_sweeps(double* traj,int N_spots,double a,double omega,double bot,do
             {
                 sigma/=sigma_coef;
             }
-            else if (acc_rate > acc_rate_up_border)
+            if (acc_rate > acc_rate_up_border)
             {
                 sigma*=sigma_coef;
             }
