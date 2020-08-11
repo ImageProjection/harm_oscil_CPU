@@ -9,4 +9,7 @@ actually
 5 parallelise 2well potential, probably refactoring algo a bit
 
 cpu version of 2 well potential
-runs in 460 seconds
+runs in 460 seconds (for 4000 N_spots)
+    in 114 seconds for N=1024 a=0.08
+
+later possibly make multiblock kernel for longer trajectories

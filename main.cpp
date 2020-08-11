@@ -20,8 +20,8 @@ int main()
 	srand(111);
 
 	const int N_sweeps_waiting=800000;
-	const double a=0.02;
-	const int N_spots=4000;
+	const double a=0.08;
+	const int N_spots=1024;
 	//double beta=a*N_spots;
 	const double omega=7.0;
 	double bot=1.0;
