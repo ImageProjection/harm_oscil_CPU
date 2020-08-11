@@ -1,3 +1,6 @@
+compile_cuda:
+	nvcc -o main main.cu
+
 compile:
 	g++ -Wall -o main main.cpp
 
