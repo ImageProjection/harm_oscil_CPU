@@ -1,30 +1,27 @@
+#include "cuda_runtime.h"
+#include "device_launch_parameters.h"
 #include <cstdio>
-#include <cstdlib>
-#include <cmath>
-#include <ctime>
-#include <string>
-#include "cuda_functions.h"
+#include <curand.h>
+#include <curand_kernel.h>
 using namespace std;
 
 void print_traj(FILE* out_traj,double* traj,int N_spots);
-void init_traj(double* traj,double x0);
-void perform_sweeps(double* traj,int N_spots,double a,double omega,double bot,double sigma_coef,
-	int sigma_sweeps_period, double acc_rate_up_border,double acc_rate_low_border,
-	int N_sweeps_waiting);
-
+__global__ void perform_sweeps(double* d_traj, int N_spots, double a, double omega,
+	double bot,double x0, double sigma_coef, double sigma_sweeps_period,
+	double acc_rate_up_border, double acc_rate_low_border, int N_sweeps_waiting, curandState *rng_states);
 
 int main()
 {
     clock_t start,end;
 	start=clock();
-	srand(111);
 
 	const int N_sweeps_waiting=800000;
-	const double a=0.02;
-	const int N_spots=4000;
+	const double a=0.08;
+	const int N_spots=1024;
 	//double beta=a*N_spots;
 	const double omega=7.0;
 	double bot=1.0;
+	double x0=bot;
 
 	const int sigma_local_updates_period=2000;
 	const int sigma_sweeps_period=ceil((double)sigma_local_updates_period/N_spots);
@@ -35,14 +32,22 @@ int main()
 	FILE *out_traj;
 	out_traj=fopen("out_traj.txt","w");
 
-	double traj[N_spots];
-	double x0=bot;
-	init_traj(traj,N_spots,x0);
+	double* h_traj;
+	h_traj=(double*)malloc(N_spots*sizeof(double));
+	double* d_traj;
+	cudaMalloc((void**)&d_traj, (N_spots*sizeof(double));
 
-	perform_sweeps(traj, N_spots, a, omega, bot, sigma_coef, sigma_sweeps_period,
-		acc_rate_up_border, acc_rate_low_border, N_sweeps_waiting);
+	dim3 grid(1,1,1);
+	dim3 block(N_spots,1,1);
+	
+	curandState *devStates;
+    cudaMalloc((void**)&devStates, N_spots*sizeof(curandState));
 
-	print_traj(out_traj,traj,N_spots);
+	perform_sweeps(d_traj, N_spots, a, omega, bot, x0, sigma_coef, sigma_sweeps_period,
+		acc_rate_up_border, acc_rate_low_border, N_sweeps_waiting, devStates);
+	cudamMemcpy(h_traj,d_traj,N_spots*sizeof(double));
+
+	print_traj(out_traj,h_traj,N_spots);
 
 	fclose(out_traj);
     end=clock();

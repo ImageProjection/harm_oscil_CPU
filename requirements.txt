@@ -3,3 +3,5 @@ For given omega termalise than analise trajectory
 1)Inputs(hardcoded) omega and trajectory generation parameters
 2)Outputs(files and terminal) termalised <x^2> into terminal (single value);
 final trajectory into file, 1 point=1 line; name must be simple to allow quick work with origin
+
+for 2 well potential only need to output trajectory into file

@@ -5,3 +5,4 @@ out*
 *.o
 main
 testing_functions
+*.json
