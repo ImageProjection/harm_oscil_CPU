@@ -6,7 +6,7 @@ void print_traj(FILE* out_traj,double* traj,int N_spots)
     }    
 }
 
-__global__ void perform_sweeps(double* d_traj, int N_spots, double a, double omega,
+__global__ void perform_sweeps(double* d_traj, const int N_spots, double a, double omega,
 	double bot,double x0, double sigma_coef, double sigma_sweeps_period,
 	double acc_rate_up_border, double acc_rate_low_border, int N_sweeps_waiting, curandState *rng_states)
 {
@@ -82,10 +82,5 @@ __global__ void perform_sweeps(double* d_traj, int N_spots, double a, double ome
 		}
 		//new -> old
 		traj[id]=traj_new[id];
-    }
-
-
-    
-
-    
+    }    
 }
